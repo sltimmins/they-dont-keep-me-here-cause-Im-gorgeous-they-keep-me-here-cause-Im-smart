@@ -14565,14 +14565,25 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="They-don't-keep-me-here-cause-I'm-gorgeous-they-keep-me-here-cause-I'm-smart">They don't keep me here cause I'm gorgeous they keep me here cause I'm smart<a class="anchor-link" href="#They-don't-keep-me-here-cause-I'm-gorgeous-they-keep-me-here-cause-I'm-smart">&#182;</a></h2>
+<h1 id="2122-World-Population-Projection">2122 World Population Projection<a class="anchor-link" href="#2122-World-Population-Projection">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="World-Population-Data">World Population Data<a class="anchor-link" href="#World-Population-Data">&#182;</a></h4>
+<h3 id="World-Population-Data">World Population Data<a class="anchor-link" href="#World-Population-Data">&#182;</a></h3><p>With the population's doubling time shortening every year, it is no surprise the human population is expected to reach an estimated 8 billion people by next year. In a century from now, the population is projected to continue to grow, but at a slower rate.</p>
+<p>This journal explains Team <em>They Don't Keep Me Here Cause I'm Gorgeous, They Keep Me Here Cause I'm Smart</em>'s projection for the world population in 2122.</p>
+
+</div>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Collection-of-Data">Collection of Data<a class="anchor-link" href="#Collection-of-Data">&#182;</a></h3><p>First, in order to project world population, we collected past population statistics from a variety of sources (shown below). Specifically, we focused on the United Nations' and United States' statistics as we found them to be the most accurate. We also collected information on each year's birth and death rate to help calculate the percent growth of the population from year to year.</p>
+<p>The data is parsed into a 2 DataFrames for ease of access.</p>
+
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14660,14 +14671,16 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Projecting-Population">Projecting Population<a class="anchor-link" href="#Projecting-Population">&#182;</a></h4>
+<p>As shown above, the U.N. and US's estimates are similar and follow a general trend. The plot starts at 1950 as that is when more accurate sources of world population totals began to be collected.</p>
+
 </div>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Proportional growth using projected growth and death rates</p>
+<h3 id="Projecting-Population">Projecting Population<a class="anchor-link" href="#Projecting-Population">&#182;</a></h3><p>In order to predict the world population, we decided to factor in the birth and death rate. Using past data, we found that these two attributes followed a sigmoid function, so we used that function to plot their change over time including projecting birth and death rate into the next centure.</p>
+<p>From there, we used the projected birth and death rate in a proportional growth function to project total world population.</p>
 
 </div>
 </div>
@@ -14693,48 +14706,38 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="n">yBR</span> <span class="o">=</span> <span class="n">BrDrGraph</span><span class="p">[</span><span class="s2">&quot;BR&quot;</span><span class="p">]</span>
 <span class="n">yDR</span> <span class="o">=</span> <span class="n">BrDrGraph</span><span class="p">[</span><span class="s2">&quot;DR&quot;</span><span class="p">]</span>
 
+<span class="c1"># sigmoid function</span>
 <span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span> <span class="p">,</span><span class="n">x0</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)))</span> <span class="o">+</span> <span class="n">b</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
+<span class="c1"># give initial data to fit function</span>
 <span class="n">p0BR</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">yBR</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">yBR</span><span class="p">)]</span>
 <span class="n">p0DR</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">yDR</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">yDR</span><span class="p">)]</span>
 
+<span class="c1"># fit data to a sigmoid curve</span>
 <span class="n">poptBR</span><span class="p">,</span> <span class="n">pcovBR</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yBR</span><span class="p">,</span> <span class="n">p0BR</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dogbox&quot;</span><span class="p">)</span>
 <span class="n">poptDR</span><span class="p">,</span> <span class="n">pcovDR</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yDR</span><span class="p">,</span> <span class="n">p0DR</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dogbox&quot;</span><span class="p">)</span>
 
+<span class="c1"># add years to project to series</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">71</span>
 <span class="k">while</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2122</span><span class="p">:</span> 
     <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-    
+   
+<span class="c1"># project birth and death rates based on sigmoid curve </span>
 <span class="n">br</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">poptBR</span><span class="p">)</span>
 <span class="n">dr</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">poptDR</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.69</span>
 
-<span class="k">def</span> <span class="nf">projectBirthsOrDeaths</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">yBR</span><span class="p">)</span>
-    <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">yBR</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">estimateBR</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope</span> <span class="o">**</span> <span class="n">year</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">yDR</span><span class="p">)</span>
-    <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">yDR</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">estimateDR</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope</span> <span class="o">**</span> <span class="n">year</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span>
-
-    <span class="k">return</span> <span class="n">estimateBR</span><span class="p">,</span> <span class="n">estimateDR</span>
-
+<span class="c1"># project total population growth for each year from 2015 to 2122</span>
 <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">results</span><span class="p">[</span><span class="n">t1</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="mi">2122</span><span class="p">):</span>
     <span class="n">results</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">br</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1950</span><span class="p">]</span> <span class="o">-</span> <span class="n">dr</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1950</span><span class="p">]))</span>
     
 <span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Population&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2021</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2122</span><span class="p">])</span>
 <span class="n">s</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Projected population in 2122: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2122</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; billion people&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14756,40 +14759,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>7.588832273074608
-10.935074824191299
+<pre>Projected population in 2122: 10.935074824191299 billion people
 </pre>
 </div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>/var/folders/ck/pmwp7vhj15nch4zqc0wlgkqw0000gn/T/ipykernel_68861/915381590.py:27: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  x[i + 1] = x[i] + 1
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;AxesSubplot:&gt;</pre>
-</div>
-
 </div>
 
 <div class="jp-OutputArea-child">
@@ -14815,82 +14787,11 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Using quadratic growth</p>
-
+<p>The data we used gives a wide variety of different accuracies, with some countries rounding and some countries not. Therefore, in order to bypass the false precision, we rounded our total world population to only 3 significant figures.</p>
+<p>In conclusion, we found that the world population in 2122 will be approximately:</p>
+<h3 id="10.9-Billion-People">10.9 Billion People<a class="anchor-link" href="#10.9-Billion-People">&#182;</a></h3>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">25</span> <span class="o">/</span> <span class="mi">1000</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.8</span> <span class="o">/</span> <span class="mi">1000</span>
-
-<span class="n">quad</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">p0</span> <span class="o">=</span> <span class="n">un</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span>
-<span class="n">quad</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p0</span>
-
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="mi">2122</span><span class="p">):</span>
-    <span class="n">growth</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">quad</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">quad</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">quad</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">quad</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">growth</span>
-    
-<span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Population&quot;</span><span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>2118    13.020382
-2119    13.040737
-2120    13.060646
-2121    13.080117
-2122    13.099159
-Name: Population, dtype: float64
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-
-
-<div class="jp-RenderedImage jp-OutputArea-output ">
-<img src="data:image/png;base64,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"
->
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>
 </body>
 
